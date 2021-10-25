@@ -174,5 +174,5 @@ Project Link: [https://github.com/ehfazrezwan/three-interactive-terrain](https:/
 [license-shield]: https://img.shields.io/github/license/ehfazrezwan/three-interactive-terrain
 [license-url]: https://github.com/ehfazrezwan/three-interactive-terrain/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/ehfazrezwan
+[linkedin-url]: https://linkedin.com/in/ehfaz-rezwan
 [product-screenshot]: images/app.gif
