@@ -2,6 +2,12 @@ import "./style.css";
 import * as THREE from "three";
 import * as dat from "dat.gui";
 
+// Loaders
+const loader = new THREE.TextureLoader();
+const texture = loader.load("/texture.jpg");
+const height = loader.load("/height.png");
+const alpha = loader.load("/alpha.png");
+
 // Debug
 const gui = new dat.GUI();
 
@@ -17,6 +23,12 @@ const planeGeometry = new THREE.PlaneBufferGeometry(3, 3, 64, 64);
 // Materials
 const material = new THREE.MeshStandardMaterial({
   color: "gray",
+  map: texture,
+  displacementMap: height,
+  displacementScale: 0.6,
+  alphaMap: alpha,
+  transparent: true,
+  depthTest: false,
 });
 
 // Mesh
@@ -30,10 +42,10 @@ const planeControls = gui.addFolder("Plane");
 planeControls.add(plane.rotation, "x").min(0).max(360).step(0.01);
 // Lights
 
-const pointLight = new THREE.PointLight(0xffffff, 2);
-pointLight.position.x = 2;
-pointLight.position.y = 3;
-pointLight.position.z = 4;
+const pointLight = new THREE.PointLight(0x00b3ff, 3);
+pointLight.position.x = 0.2;
+pointLight.position.y = 10;
+pointLight.position.z = 4.4;
 scene.add(pointLight);
 
 const pointLightControls = gui.addFolder("Point Light");
@@ -43,7 +55,7 @@ pointLightControls.add(pointLight.position, "z").min(-3).max(3).step(0.01);
 pointLightControls.add(pointLight, "intensity").min(0).max(10).step(0.01);
 
 const pointLightColor = {
-  color: 0xffffff,
+  color: 0x00b3ff,
 };
 
 pointLightControls.addColor(pointLightColor, "color").onChange(() => {
@@ -51,7 +63,7 @@ pointLightControls.addColor(pointLightColor, "color").onChange(() => {
 });
 
 const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.3);
-scene.add(pointLightHelper);
+// scene.add(pointLightHelper);
 
 /**
  * Sizes
@@ -102,17 +114,21 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  * Animate
  */
 
+document.addEventListener("mousemove", animateTerrain);
+
+let mouseY = 0;
+
+function animateTerrain(e) {
+  mouseY = event.clientY;
+}
+
 const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
-  // Update objects
-  //   sphere.rotation.y = 0.5 * elapsedTime;
-
-  // Update Orbital Controls
-  // controls.update()
-
+  plane.rotation.z = 0.5 * elapsedTime;
+  plane.material.displacementScale = mouseY * 0.001;
   // Render
   renderer.render(scene, camera);
 
